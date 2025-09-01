@@ -284,11 +284,9 @@
     </div>
 
     <script>
-        // داده‌های سوالات
-        const questions = [
-            
-           
-  {
+
+const originalQuestions = [
+    {
     "id": 1,
     "text": "کدام رویکرد توسعه برنامه موبایل، بالاترین سطح عملکرد و دسترسی کامل به ویژگی‌های بومی دستگاه را ارائه می‌دهد؟",
     "options": ["برنامه‌نویسی بومی (Native)", "برنامه‌نویسی هیبریدی", "برنامه‌نویسی وب‌ویو", "برنامه‌نویسی چندپلتفرمی با فریمورک‌های وب"],
@@ -1189,6 +1187,49 @@
     "correctAnswer": 0
   },
     
+];
+
+// تابع برای تصادفی کردن گزینه‌های هر سوال
+function shuffleQuestions(questions) {
+    return questions.map(question => {
+        // ذخیره گزینه صحیح فعلی
+        const correctIndex = question.correctAnswer;
+        const correctOption = question.options[correctIndex];
+        
+        // ایجاد لیست جدید از ایندکس‌ها و به هم ریختن آن‌ها
+        const indices = [...question.options.keys()];
+        for (let i = indices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indices[i], indices[j]] = [indices[j], indices[i]];
+        }
+        
+        // ایجاد لیست جدید گزینه‌ها
+        const newOptions = indices.map(i => question.options[i]);
+        
+        // پیدا کردن موقعیت جدید گزینه صحیح
+        const newCorrectIndex = newOptions.indexOf(correctOption);
+        
+        // برگرداندن سوال با گزینه‌های تصادفی شده
+        return {
+            ...question,
+            options: newOptions,
+            correctAnswer: newCorrectIndex
+        };
+    });
+}
+
+// ایجاد نسخه تصادفی از سوالات
+const questions = shuffleQuestions(originalQuestions);
+
+// متغیرهای حالت
+let userAnswers = new Array(questions.length).fill(null);
+let quizSubmitted = false;
+        
+        // داده‌های سوالات
+        const questions = [
+            
+           
+ 
   
 
         ];
